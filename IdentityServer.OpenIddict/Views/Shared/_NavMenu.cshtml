@@ -1,0 +1,25 @@
+﻿@{
+    var currentRoute = $"{ViewContext.RouteData.Values["Controller"]}/{@ViewContext.RouteData.Values["Action"]}";
+}
+<div class="logo-container">
+    <div class="logo">
+        <a href="">身份认证中心</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler">
+
+<div class="nav-scrollable">
+    <nav class="nav-item-container">
+        <div class="nav-item">
+            <a class="nav-link @(currentRoute == "Home/Index" ? "active" : string.Empty) " asp-area="" asp-controller="Home" asp-action="Index">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="nav-link @(currentRoute == "Home/Privacy" ? "active" : string.Empty)" asp-area="" asp-controller="Home" asp-action="Privacy">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Privacy
+            </a>
+        </div>
+    </nav>
+</div>
