@@ -21,24 +21,21 @@ public static class OpenIddictServiceCollectionExtensions
             .AddServer(options =>
             {
                 // Enable the token endpoint.
-                options.SetAuthorizationEndpointUris("connect/authorize")
+                options
+                    .SetAuthorizationEndpointUris("connect/authorize")
                     .SetLogoutEndpointUris("connect/logout")
                     .SetTokenEndpointUris("connect/token")
                     .SetUserinfoEndpointUris("connect/userinfo");
 
                 // Mark the "email", "profile" and "roles" scopes as supported scopes.
                 options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
-                
-                // Enable the client credentials flow.
-                options.AllowClientCredentialsFlow();
 
-                // Enable the password flow.
-                options.AllowPasswordFlow()
-                    .AllowRefreshTokenFlow();
-                
-                // Note: this sample only uses the authorization code flow but you can enable
-                // the other flows if you need to support implicit, password or client credentials.
-                options.AllowAuthorizationCodeFlow();
+                // Enable the client credentials flow.
+                options
+                    .AllowClientCredentialsFlow()
+                    .AllowPasswordFlow()
+                    .AllowRefreshTokenFlow()
+                    .AllowAuthorizationCodeFlow();
 
                 // Accept anonymous clients (i.e clients that don't send a client_id).
                 options.AcceptAnonymousClients();

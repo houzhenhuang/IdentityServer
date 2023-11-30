@@ -24,4 +24,8 @@
       <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="4.10.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Claims\" />
+    </ItemGroup>
+
 </Project>
