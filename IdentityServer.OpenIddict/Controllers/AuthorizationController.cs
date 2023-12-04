@@ -177,7 +177,7 @@ public class AuthorizationController : ControllerBase
         }
     }
 
-    
+
     //     [HttpPost]
     // [Authorize]
     // [Route("callback")]
@@ -251,7 +251,6 @@ public class AuthorizationController : ControllerBase
     //     // 返回 SignInResult 将要求 OpenIddict 颁发适当的 access/identity tokens。
     //     return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     // }
-    
 
     [Authorize, FormValueRequired("submit.Accept")]
     [HttpPost("~/connect/authorize"), ValidateAntiForgeryToken]
@@ -259,25 +258,23 @@ public class AuthorizationController : ControllerBase
     {
         var request = await GetOpenIddictServerRequestAsync(HttpContext);
 
-        // Retrieve the profile of the logged in user.
+        // 检索已登录用户的配置文件。
         var user = await UserManager.GetUserAsync(User) ??
                    throw new InvalidOperationException("The user details cannot be retrieved.");
 
-        // Retrieve the application details from the database.
-        var application = await ApplicationManager.FindByClientIdAsync(request.ClientId) ??
+        // 从数据库中检索应用程序详细信息。
+        var application = await ApplicationManager.FindByClientIdAsync(request.ClientId!) ??
                           throw new InvalidOperationException("Details concerning the calling client application cannot be found.");
 
-        // Retrieve the permanent authorizations associated with the user and the calling client application.
+        // 检索与用户和调用客户端应用程序相关联的永久授权。
         var authorizations = await AuthorizationManager.FindAsync(
             subject: await UserManager.GetUserIdAsync(user),
-            client: await ApplicationManager.GetIdAsync(application),
+            client: (await ApplicationManager.GetIdAsync(application))!,
             status: Statuses.Valid,
             type: AuthorizationTypes.Permanent,
             scopes: request.GetScopes()).ToListAsync();
 
-        // Note: the same check is already made in the other action but is repeated
-        // here to ensure a malicious user can't abuse this POST-only endpoint and
-        // force it to return a valid response without the external authorization.
+        // 注意：在其他操作中已经进行了相同的检查，但在此处重复进行，以确保恶意用户不会滥用此仅限POST的端点，并在没有外部授权的情况下强制其返回有效响应。
         if (!authorizations.Any() && await ApplicationManager.HasConsentTypeAsync(application, ConsentTypes.External))
         {
             return Forbid(
@@ -287,48 +284,44 @@ public class AuthorizationController : ControllerBase
                     [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.ConsentRequired,
                     [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] =
                         "The logged in user is not allowed to access this client application."
-                }));
+                }!));
         }
 
-        // Create the claims-based identity that will be used by OpenIddict to generate tokens.
+        // 创建OpenIddict将用于生成令牌的基于声明的标识。
         var identity = new ClaimsIdentity(
             authenticationType: TokenValidationParameters.DefaultAuthenticationType,
             nameType: Claims.Name,
             roleType: Claims.Role);
 
-        // Add the claims that will be persisted in the tokens.
+        // 添加将在令牌中持久化的声明。
         identity.SetClaim(Claims.Subject, await UserManager.GetUserIdAsync(user))
             .SetClaim(Claims.Email, await UserManager.GetEmailAsync(user))
             .SetClaim(Claims.Name, await UserManager.GetUserNameAsync(user))
             .SetClaims(Claims.Role, (await UserManager.GetRolesAsync(user)).ToImmutableArray());
 
-        // Note: in this sample, the granted scopes match the requested scope
-        // but you may want to allow the user to uncheck specific scopes.
-        // For that, simply restrict the list of scopes before calling SetScopes.
+        // 注意：在此示例中，授予的作用域与请求的作用域匹配，但您可能希望允许用户取消选中特定的作用域。为此，只需在调用SetScope之前限制作用域列表即可。
         identity.SetScopes(request.GetScopes());
         identity.SetResources(await ScopeManager.ListResourcesAsync(identity.GetScopes()).ToListAsync());
 
-        // Automatically create a permanent authorization to avoid requiring explicit consent
-        // for future authorization or token requests containing the same scopes.
+        // 自动创建永久授权，以避免将来的授权或包含相同作用域的令牌请求需要明确同意。
         var authorization = authorizations.LastOrDefault();
         authorization ??= await AuthorizationManager.CreateAsync(
             identity: identity,
             subject: await UserManager.GetUserIdAsync(user),
-            client: await ApplicationManager.GetIdAsync(application),
+            client: (await ApplicationManager.GetIdAsync(application))!,
             type: AuthorizationTypes.Permanent,
             scopes: identity.GetScopes());
 
         identity.SetAuthorizationId(await AuthorizationManager.GetIdAsync(authorization));
         identity.SetDestinations(GetDestinations);
 
-        // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
+        // 返回 SignInResult 将要求OpenIddict发布适当的访问/身份令牌。
         return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
 
     [Authorize, FormValueRequired("submit.Deny")]
     [HttpPost("~/connect/authorize"), ValidateAntiForgeryToken]
-    // Notify OpenIddict that the authorization grant has been denied by the resource owner
-    // to redirect the user agent to the client application using the appropriate response_mode.
+    // 通知OpenIddict资源所有者拒绝授权授予，以便使用适当的response_mode将用户代理重定向到客户端应用程序。
     public IActionResult Deny() => Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 }
 
