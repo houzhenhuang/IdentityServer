@@ -1,0 +1,261 @@
+﻿@using OpenIddict.Abstractions
+@model IdentityServer.OpenIddict.ViewModels.Application.CreateViewModel;
+@{
+    Layout = "_Layout";
+}
+
+<h1>创建新的应用程序</h1>
+<div asp-validation-summary="ModelOnly"></div>
+<form id="create-application-form" asp-controller="Application" asp-action="Create" method="post">
+    <div class="mb-3" asp-validation-class-for="ClientId">
+        <label for="clientId" class="form-label">客户端Id</label>
+        <input type="text" class="form-control" id="clientId" placeholder="请输入客户端Id" value="@Model.ClientId">
+        <span asp-validation-for="ClientId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="displayName" class="form-label">显示名称</label>
+        <input type="text" class="form-control" id="displayName" placeholder="请输入显示名称" value="@Model.DisplayName">
+        <span asp-validation-for="DisplayName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="type" class="form-label">类型</label>
+        <select class="form-select" id="type" aria-label="Default select example">
+            <option value=@OpenIddictConstants.ClientTypes.Confidential>Confidential Client</option>
+            <option value=@OpenIddictConstants.ClientTypes.Public>Public Client</option>
+        </select>
+        <div class="hint">
+            机密应用程序在与令牌(token)和撤销端点(revocation endpoint)通信时必须发送其客户端密钥。这保证了只有合法客户端才能交换授权代码(authorization code)或获取刷新令牌(refresh token)。
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="clientSecret" class="form-label">客户端密钥</label>
+        <input type="text" class="form-control" id="clientSecret" placeholder="请输入客户端密钥" value="@Model.ClientSecret">
+    </div>
+
+    <h3>流程(Flows)</h3>
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="allowAuthorizationCodeFlow" checked="@Model.AllowAuthorizationCodeFlow">
+            <label class="form-check-label" for="allowAuthorizationCodeFlow">
+                允许授权代码流程(Allow Authorization Code Flow)
+            </label>
+            <span class="hint dashed"> - 更多信息 <a href="http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth">http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth</a></span>
+        </div>
+        <div id="allowAuthorizationCodeFlowRecommendedHint" class="hint collapse">推荐参数: grant_type = 'code', client_id, scope ('openid, profile, roles)')</div>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="allowImplicitFlow" checked="@Model.AllowImplicitFlow">
+            <label class="form-check-label" for="allowImplicitFlow">
+                允许隐式流程(Allow Implicit Flow)
+            </label>
+            <span class="hint dashed"> - 更多信息 <a href="http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth">http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth</a></span>
+        </div>
+        <div id="allowImplicitFlowRecommendedHint" class="hint collapse">推荐参数: grant_type = 'id_token token', client_id, client_secret, redirect_uri ='', nonce, scope ('openid, profile, roles')</div>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="allowHybridFlow" checked="@Model.AllowHybridFlow">
+            <label class="form-check-label" for="allowHybridFlow">
+                允许混合流程(Allow Hybrid Flow)
+            </label>
+            <span class="hint dashed"> - 更多信息 <a href="http://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth">http://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth</a></span>
+        </div>
+        <div id="allowHybridFlowRecommendedHint" class="hint collapse">推荐参数: grant_type = 'code id_token', client_id, client_secret, redirect_uri ='', nonce, scope ('openid, profile, roles')</div>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="allowPasswordFlow" checked="@Model.AllowPasswordFlow">
+            <label class="form-check-label" for="allowPasswordFlow">
+                允许密码流程(Allow Password Flow)
+            </label>
+            <span class="hint dashed"> - 更多信息 <a href="https://tools.ietf.org/html/rfc6749#section-1.3.3">https://tools.ietf.org/html/rfc6749#section-1.3.3</a></span>
+        </div>
+        <div id="allowPasswordFlowRecommendedHint" class="hint collapse">推荐参数: grant_type = 'password', client_id, client_secret, username, password, scope ('openid, profile, roles)')</div>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="allowClientCredentialsFlow" checked="@Model.AllowClientCredentialsFlow">
+            <label class="form-check-label" for="allowClientCredentialsFlow">
+                允许客户端凭证流程(Allow Client Credentials Flow)
+            </label>
+            <span class="hint dashed"> - 更多信息 <a href="https://tools.ietf.org/html/rfc6749#section-1.3.4">https://tools.ietf.org/html/rfc6749#section-1.3.4</a></span>
+        </div>
+        <div id="allowClientCredentialsFlowRecommendedHint" class="hint collapse">推荐参数: grant_type = 'client_credentials', client_id, client_secret, scope ('openid, profile, roles')</div>
+    </div>
+
+    <div class="mb-3 collapse" id="allowRefreshTokenFlowFieldSet">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="allowRefreshTokenFlow" checked="@Model.AllowRefreshTokenFlow">
+            <label class="form-check-label" for="allowRefreshTokenFlow">
+                允许刷新令牌流程(Allow Refresh Token Flow)
+            </label>
+            <span class="hint dashed"> - 更多信息 <a href="http://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens">http://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens</a></span>
+        </div>
+        <div id="allowRefreshTokenFlowRecommendedHint" class="hint collapse">推荐参数: grant_type = 'refresh_token', client_id, refresh_token</div>
+    </div>
+
+    <div id="redirectContainer" class="mb-3 collapse">
+        <div class="mb-3">
+            <div>
+                <label for="redirectUri" class="form-label">重定向 Uris</label>
+                <input type="text" class="form-control" id="redirectUri" placeholder="请输入重定向url">
+            </div>
+            <div class="hint">重定向URIs列表(使用Space分隔)</div>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" value="" id="allowLogoutEndpoint">
+            <label class="form-check-label" for="allowLogoutEndpoint">
+                允许注销端点(Allow Logout Endpoint)
+            </label>
+        </div>
+
+        <div class="mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="requireProofKeyForCodeExchange">
+                <label class="form-check-label" for="requireProofKeyForCodeExchange">
+                    需要PKCE(Require Proof Key for Code Exchange)
+                </label>
+            </div>
+            <div class="hint">在启用此选项之前，请确保正在使用的客户端应用程序和OAuth或OIDC库支持PKCE。</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="consentType" class="form-label">同意类型</label>
+            <select class="form-select" id="consentType" aria-label="Default select example">
+                <option value="@OpenIddictConstants.ConsentTypes.Explicit">明确同意(Explicit consent)</option>
+                <option value="@OpenIddictConstants.ConsentTypes.Implicit">默认同意(Implicit consent)</option>
+                <option value="@OpenIddictConstants.ConsentTypes.External">外部同意(External consent)</option>
+            </select>
+        </div>
+
+        <div>
+            <strong>同意类型</strong>会影响处理授权请求的方式。
+            <ul>
+                <li>
+                    当明确表示同意时(Explicit consent)，授权请求必须得到最终用户的批准。这是推荐的选项。
+                </li>
+                <li>
+                    当默认同意时(Implicit consent)，授权请求被认为是预先批准的，并且不显示同意书。
+                </li>
+                <li>
+                    当同意是外部的时(External consent)，除非已经存在预先存在的授权（以编程方式授予），否则授权请求将被拒绝。
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="mb-3" id="ScopeGroup" name="ScopeGroup">
+        <h6>Allowed Scopes</h6>
+        @for (var i = 0; i < Model.ScopeEntries.Count; i++)
+        {
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="ScopeEntries[i].Selected">
+                <input type="hidden" asp-for="ScopeEntries[i].Name">
+                <label class="form-check-label" asp-for="ScopeEntries[i].Selected">@Model.ScopeEntries[i].Name</label>
+            </div>
+        }
+    </div>
+
+    <div class="mb-3 collapse" id="RoleGroup" name="RoleGroup">
+        <h6>Client Credentials Roles</h6>
+        @for (var i = 0; i < Model.RoleEntries.Count; i++)
+        {
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="RoleEntries[i].Selected">
+                <input type="hidden" asp-for="RoleEntries[i].Name">
+                <label class="form-check-label" asp-for="RoleEntries[i].Selected">@Model.RoleEntries[i].Name</label>
+            </div>
+        }
+    </div>
+
+    <div class="mb-3">
+        <button class="btn btn-primary save " type="submit">保存</button>
+        <a class="btn btn-secondary cancel " role="button" asp-route-action="Index">取消</a>
+    </div>
+
+</form>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+$(function (){
+    refreshForbiddenFlows();
+    refreshFlows();
+    
+    
+     function refreshForbiddenFlows() {
+          $("#allowRefreshTokenFlowFieldSet").collapse("show");
+     }
+     
+     // $("#AllowRefreshTokenFlow").change(function () {
+     //     refreshOfflineAccessTip();
+     // });
+    
+    $("#allowAuthorizationCodeFlow,#allowRefreshTokenFlow").change(function () {
+        refreshFlows();
+    });
+     
+     $("#allowRefreshTokenFlow").change(function (){
+         if($("#allowRefreshTokenFlow").prop('checked')){
+            $("#allowRefreshTokenFlowRecommendedHint").collapse("show");
+         }else {
+            $("#allowRefreshTokenFlowRecommendedHint").collapse("hide");
+         }
+     });
+    
+    function refreshFlows() {
+        // refreshRoleGroup();
+        refreshAllowRefreshTokenFlowVisibility();
+        refreshRedirectSettings();
+    }
+            
+    function refreshAllowRefreshTokenFlowVisibility() {
+        let allowRefreshTokenFlow = $("#allowRefreshTokenFlow");
+
+        if ($("#AllowPasswordFlow").prop('checked') ||
+            $("#allowAuthorizationCodeFlow").prop('checked') ||
+            $("#AllowHybridFlow").prop('checked')) {
+            allowRefreshTokenFlow.removeAttr("disabled");
+        }
+        else {
+            allowRefreshTokenFlow.attr('disabled', true);
+            allowRefreshTokenFlow.prop("checked", false);
+            $("#allowRefreshTokenFlowRecommendedHint").collapse("hide");
+            // refreshOfflineAccessTip();
+        }
+    }
+    function refreshRedirectSettings() {
+                let redirectContainer = $("#redirectContainer");
+                
+                // var skipConsent = $("#SkipConsent");
+                // var postLogoutRedirecUris = $("#postLogoutRedirectUris")
+    
+                if ($("#AllowImplicitFlow").prop('checked') ||
+                    $("#allowAuthorizationCodeFlow").prop('checked') ||
+                    $("#AllowHybridFlow").prop('checked')) {
+                    redirectContainer.collapse("show");
+                    if ($("#AllowLogoutEndpoint").prop('checked')) {
+                        // postLogoutRedirecUris.collapse("show");
+                    }
+                    else {
+                        // postLogoutRedirecUris.collapse("hide");
+                    }
+                }
+                else {
+                    // skipConsent.prop("checked", false);
+                    redirectContainer.collapse("hide");
+                    $("#AllowLogoutEndpoint").prop('checked', false);
+                    // postLogoutRedirecUris.collapse("hide");
+                }
+            }
+})
+</script>

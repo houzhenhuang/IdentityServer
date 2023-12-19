@@ -1,5 +1,5 @@
 ﻿@{
-    var currentRoute = $"{ViewContext.RouteData.Values["Controller"]}/{@ViewContext.RouteData.Values["Action"]}";
+    var currentRoute = $"{ViewContext.RouteData.Values["Controller"]}/{ViewContext.RouteData.Values["Action"]}";
 }
 <div class="logo-container">
     <div class="logo">
@@ -13,12 +13,12 @@
     <nav class="nav-item-container">
         <div class="nav-item">
             <a class="nav-link @(currentRoute == "Home/Index" ? "active" : string.Empty) " asp-area="" asp-controller="Home" asp-action="Index">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> 主页
             </a>
         </div>
         <div class="nav-item">
-            <a class="nav-link @(currentRoute == "Home/Privacy" ? "active" : string.Empty)" asp-area="" asp-controller="Home" asp-action="Privacy">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Privacy
+            <a class="nav-link @(currentRoute.IndexOf("Applications/", StringComparison.Ordinal) == 0 ? "active" : string.Empty)" asp-area="" asp-controller="Application" asp-action="Index">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> 应用程序
             </a>
         </div>
     </nav>

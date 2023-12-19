@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace IdentityServer.OpenIddict.Controllers;
 
-// [Authorize(AuthenticationSchemes = "Identity.Application")]
+[Authorize(AuthenticationSchemes = "Identity.Application")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

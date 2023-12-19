@@ -23,6 +23,7 @@ public static class OpenIddictServiceCollectionExtensions
                 // Enable the token endpoint.
                 options
                     .SetAuthorizationEndpointUris("connect/authorize")
+                    .SetIntrospectionEndpointUris("connect/introspect")
                     .SetLogoutEndpointUris("connect/logout")
                     .SetTokenEndpointUris("connect/token")
                     .SetUserinfoEndpointUris("connect/userinfo");
@@ -52,7 +53,7 @@ public static class OpenIddictServiceCollectionExtensions
                     .EnableUserinfoEndpointPassthrough()
                     .EnableStatusCodePagesIntegration();
 
-                // options.DisableAccessTokenEncryption();
+                options.DisableAccessTokenEncryption();
             })
             // 注册 OpenIddict 验证组件。
             .AddValidation(options =>

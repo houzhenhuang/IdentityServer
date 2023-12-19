@@ -1,0 +1,29 @@
+﻿@using IdentityServer.OpenIddict.ViewModels.Application;
+@model IndexViewModel;
+@{
+
+}
+<h1>Applications</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <a class="btn btn-primary" asp-controller="Application" asp-action="Create">添加应用</a>
+    </div>
+</div>
+
+<ul class="list-group">
+    @foreach (var application in Model.Applications)
+    {
+        <li class="list-group-item ">
+            <div class="w-100">
+                <span>
+                    @application.DisplayName
+                </span>
+                <div class="float-end">
+                    <button type="button" class="btn btn-primary btn-sm">编辑</button>
+                    <button type="button" class="btn btn-danger btn-sm">删除</button>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
