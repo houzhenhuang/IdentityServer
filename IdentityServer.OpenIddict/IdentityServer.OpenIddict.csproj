@@ -26,6 +26,7 @@
 
     <ItemGroup>
       <Folder Include="Claims\" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>

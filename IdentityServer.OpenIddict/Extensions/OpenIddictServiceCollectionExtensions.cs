@@ -1,5 +1,6 @@
 ﻿using IdentityServer.OpenIddict;
 using IdentityServer.OpenIddict.Data;
+using IdentityServer.OpenIddict.Models;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Microsoft.Extensions.DependencyInjection;

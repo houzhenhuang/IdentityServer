@@ -9,19 +9,19 @@
 <form id="create-application-form" asp-controller="Application" asp-action="Create" method="post">
     <div class="mb-3" asp-validation-class-for="ClientId">
         <label for="clientId" class="form-label">客户端Id</label>
-        <input type="text" class="form-control" id="clientId" placeholder="请输入客户端Id" value="@Model.ClientId">
+        <input type="text" class="form-control" id="clientId" placeholder="请输入客户端Id" asp-for="ClientId" value="@Model.ClientId">
         <span asp-validation-for="ClientId" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label for="displayName" class="form-label">显示名称</label>
-        <input type="text" class="form-control" id="displayName" placeholder="请输入显示名称" value="@Model.DisplayName">
+        <input type="text" class="form-control" id="displayName" placeholder="请输入显示名称" asp-for="DisplayName" value="@Model.DisplayName">
         <span asp-validation-for="DisplayName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label for="type" class="form-label">类型</label>
-        <select class="form-select" id="type" aria-label="Default select example">
+        <select class="form-select" id="type" asp-for="Type">
             <option value=@OpenIddictConstants.ClientTypes.Confidential>Confidential Client</option>
             <option value=@OpenIddictConstants.ClientTypes.Public>Public Client</option>
         </select>
@@ -32,13 +32,14 @@
 
     <div class="mb-3">
         <label for="clientSecret" class="form-label">客户端密钥</label>
-        <input type="text" class="form-control" id="clientSecret" placeholder="请输入客户端密钥" value="@Model.ClientSecret">
+        <input type="text" class="form-control" id="clientSecret" placeholder="请输入客户端密钥" asp-for="ClientSecret" value="@Model.ClientSecret">
+        <span asp-validation-for="ClientSecret" class="text-danger"></span>
     </div>
 
     <h3>流程(Flows)</h3>
     <div class="mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="allowAuthorizationCodeFlow" checked="@Model.AllowAuthorizationCodeFlow">
+            <input class="form-check-input" type="checkbox" id="allowAuthorizationCodeFlow" asp-for="AllowAuthorizationCodeFlow" checked="@Model.AllowAuthorizationCodeFlow">
             <label class="form-check-label" for="allowAuthorizationCodeFlow">
                 允许授权代码流程(Allow Authorization Code Flow)
             </label>
@@ -49,7 +50,7 @@
 
     <div class="mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="allowImplicitFlow" checked="@Model.AllowImplicitFlow">
+            <input class="form-check-input" type="checkbox" id="allowImplicitFlow" asp-for="AllowImplicitFlow" checked="@Model.AllowImplicitFlow">
             <label class="form-check-label" for="allowImplicitFlow">
                 允许隐式流程(Allow Implicit Flow)
             </label>
@@ -60,7 +61,7 @@
 
     <div class="mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="allowHybridFlow" checked="@Model.AllowHybridFlow">
+            <input class="form-check-input" type="checkbox" id="allowHybridFlow" asp-for="AllowHybridFlow" checked="@Model.AllowHybridFlow">
             <label class="form-check-label" for="allowHybridFlow">
                 允许混合流程(Allow Hybrid Flow)
             </label>
@@ -71,7 +72,7 @@
 
     <div class="mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="allowPasswordFlow" checked="@Model.AllowPasswordFlow">
+            <input class="form-check-input" type="checkbox" id="allowPasswordFlow" asp-for="AllowPasswordFlow" checked="@Model.AllowPasswordFlow">
             <label class="form-check-label" for="allowPasswordFlow">
                 允许密码流程(Allow Password Flow)
             </label>
@@ -82,7 +83,7 @@
 
     <div class="mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="allowClientCredentialsFlow" checked="@Model.AllowClientCredentialsFlow">
+            <input class="form-check-input" type="checkbox" id="allowClientCredentialsFlow" asp-for="AllowClientCredentialsFlow" checked="@Model.AllowClientCredentialsFlow">
             <label class="form-check-label" for="allowClientCredentialsFlow">
                 允许客户端凭证流程(Allow Client Credentials Flow)
             </label>
@@ -93,7 +94,7 @@
 
     <div class="mb-3 collapse" id="allowRefreshTokenFlowFieldSet">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="allowRefreshTokenFlow" checked="@Model.AllowRefreshTokenFlow">
+            <input class="form-check-input" type="checkbox" id="allowRefreshTokenFlow" asp-for="AllowRefreshTokenFlow" checked="@Model.AllowRefreshTokenFlow">
             <label class="form-check-label" for="allowRefreshTokenFlow">
                 允许刷新令牌流程(Allow Refresh Token Flow)
             </label>
@@ -105,22 +106,32 @@
     <div id="redirectContainer" class="mb-3 collapse">
         <div class="mb-3">
             <div>
-                <label for="redirectUri" class="form-label">重定向 Uris</label>
-                <input type="text" class="form-control" id="redirectUri" placeholder="请输入重定向url">
+                <label for="redirectUris" class="form-label">重定向 Uris</label>
+                <input type="text" class="form-control" id="redirectUris" placeholder="请输入重定向url" asp-for="RedirectUris" value="@Model.RedirectUris">
             </div>
             <div class="hint">重定向URIs列表(使用Space分隔)</div>
         </div>
 
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="" id="allowLogoutEndpoint">
-            <label class="form-check-label" for="allowLogoutEndpoint">
-                允许注销端点(Allow Logout Endpoint)
-            </label>
+        <div class="mb-3" id="allowLogoutEndpointFieldSet">
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="allowLogoutEndpoint" asp-for="AllowLogoutEndpoint" checked="@Model.AllowLogoutEndpoint">
+                <label class="form-check-label" for="allowLogoutEndpoint">
+                    允许注销端点(Allow Logout Endpoint)
+                </label>
+            </div>
+
+            <div class="mb-3 collapse" id="postLogoutRedirectUrisFieldSet">
+                <div>
+                    <label for="postLogoutRedirectUris" class="form-label">注销重定向 Uris</label>
+                    <input type="text" class="form-control" id="postLogoutRedirectUris" placeholder="请输入注销重定向url" asp-for="PostLogoutRedirectUris" value="@Model.PostLogoutRedirectUris">
+                </div>
+                <div class="hint">注销重定向URIs列表(使用Space分隔)</div>
+            </div>
         </div>
 
         <div class="mb-3">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="requireProofKeyForCodeExchange">
+                <input class="form-check-input" type="checkbox" id="requireProofKeyForCodeExchange" asp-for="RequireProofKeyForCodeExchange" checked="@Model.RequireProofKeyForCodeExchange">
                 <label class="form-check-label" for="requireProofKeyForCodeExchange">
                     需要PKCE(Require Proof Key for Code Exchange)
                 </label>
@@ -130,7 +141,7 @@
 
         <div class="mb-3">
             <label for="consentType" class="form-label">同意类型</label>
-            <select class="form-select" id="consentType" aria-label="Default select example">
+            <select class="form-select" id="consentType" asp-for="ConsentType">
                 <option value="@OpenIddictConstants.ConsentTypes.Explicit">明确同意(Explicit consent)</option>
                 <option value="@OpenIddictConstants.ConsentTypes.Implicit">默认同意(Implicit consent)</option>
                 <option value="@OpenIddictConstants.ConsentTypes.External">外部同意(External consent)</option>
@@ -188,42 +199,155 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
 $(function (){
+    let type=$("#type");
+    let allowAuthorizationCodeFlow=$("#allowAuthorizationCodeFlow");
+    let allowImplicitFlow=$("#allowImplicitFlow");
+    let allowHybridFlow=$("#allowHybridFlow");
+    let allowPasswordFlow=$("#allowPasswordFlow");
+    let allowClientCredentialsFlow=$("#allowClientCredentialsFlow");
+    let allowRefreshTokenFlow = $("#allowRefreshTokenFlow");
+    
+    let allowLogoutEndpoint=$("#allowLogoutEndpoint");
+    
+    
     refreshForbiddenFlows();
+    refreshClientSecret('@OpenIddictConstants.ClientTypes.Confidential');
     refreshFlows();
+    refreshOfflineAccessTip(false)
     
     
      function refreshForbiddenFlows() {
           $("#allowRefreshTokenFlowFieldSet").collapse("show");
      }
      
-     // $("#AllowRefreshTokenFlow").change(function () {
-     //     refreshOfflineAccessTip();
-     // });
+     allowRefreshTokenFlow.change(function () {
+         refreshOfflineAccessTip();
+     });
+     
+     function refreshOfflineAccessTip(defaultValue) {
+         let offlineAccessHints = $("#allowPasswordFlowRecommendedHint, #allowAuthorizationCodeFlowRecommendedHint");
+         if (defaultValue === allowRefreshTokenFlow.prop('checked'))
+             return;
     
-    $("#allowAuthorizationCodeFlow,#allowRefreshTokenFlow").change(function () {
+         if (allowRefreshTokenFlow.prop('checked')) {
+             offlineAccessHints.each(function () { this.innerText = this.innerText.replace("roles", "roles, offline_access"); });
+         }
+         else {
+             offlineAccessHints.each(function () { this.innerText = this.innerText.replace(", offline_access", ""); });
+         }
+     }
+
+    
+    type.change(function (){
+        refreshClientSecret();
+    });
+     
+  function refreshClientSecret(defaultType) {
+      $("#clientSecret").parent().collapse(type.val() === '@OpenIddictConstants.ClientTypes.Confidential' ? "show" : "hide");
+      
+      if (type.val() === '@OpenIddictConstants.ClientTypes.Confidential') {
+          allowClientCredentialsFlow.removeAttr("disabled");
+      }
+      else {
+          allowClientCredentialsFlow.attr('disabled', true);
+          allowClientCredentialsFlow.prop("checked", false);
+      }
+      
+      if (defaultType === type.val())
+          return;
+      
+      let clientSecretHints = $("#allowPasswordFlowRecommendedHint, #allowAuthorizationCodeFlowRecommendedHint, #allowImplicitFlowRecommendedHint, #allowRefreshTokenFlowRecommendedHint");
+      if (type.val() === '@OpenIddictConstants.ClientTypes.Confidential') {
+          clientSecretHints.each(function () { this.innerText = this.innerText.replace("client_id, ", "client_id, client_secret, "); });
+      }
+      else {
+          clientSecretHints.each(function () { this.innerText = this.innerText.replace("client_id, client_secret, ", "client_id, "); });
+      }
+  }
+    
+    allowRefreshTokenFlow.change(function () {
         refreshFlows();
     });
      
-     $("#allowRefreshTokenFlow").change(function (){
-         if($("#allowRefreshTokenFlow").prop('checked')){
-            $("#allowRefreshTokenFlowRecommendedHint").collapse("show");
+     // 允许授权码流程复选框变化
+     allowAuthorizationCodeFlow.change(function (){
+              if(allowAuthorizationCodeFlow.prop('checked')){
+                 $("#allowAuthorizationCodeFlowRecommendedHint").collapse("show");
+              }else {
+                 $("#allowAuthorizationCodeFlowRecommendedHint").collapse("hide");
+              }
+              
+               refreshFlows();
+          });
+     
+     // 允许隐式流程复选框变化
+     allowImplicitFlow.change(function (){
+           if(allowImplicitFlow.prop('checked')){
+              $("#allowImplicitFlowRecommendedHint").collapse("show");
+           }else {
+              $("#allowImplicitFlowRecommendedHint").collapse("hide");
+           }
+            refreshFlows();
+       });
+     
+     // 允许混合流程复选框变化
+     allowHybridFlow.change(function (){
+         if($("#allowHybridFlow").prop('checked')){
+            $("#allowHybridFlowRecommendedHint").collapse("show");
          }else {
-            $("#allowRefreshTokenFlowRecommendedHint").collapse("hide");
+            $("#allowHybridFlowRecommendedHint").collapse("hide");
          }
+          refreshFlows();
      });
+     
+      // 允许密码流程复选框变化
+      allowPasswordFlow.change(function (){
+            if(allowPasswordFlow.prop('checked')){
+               $("#allowPasswordFlowRecommendedHint").collapse("show");
+            }else {
+               $("#allowPasswordFlowRecommendedHint").collapse("hide");
+            }
+            refreshFlows();
+        });
+      
+      // 允许客户端凭据流程复选框变化
+      allowClientCredentialsFlow.change(function (){
+              if(allowClientCredentialsFlow.prop('checked')){
+                 $("#allowClientCredentialsFlowRecommendedHint").collapse("show");
+              }else {
+                 $("#allowClientCredentialsFlowRecommendedHint").collapse("hide");
+              }
+          });
+     
+      // 允许刷新令牌流程复选框变化
+        allowRefreshTokenFlow.change(function (){
+                if(allowRefreshTokenFlow.prop('checked')){
+                   $("#allowRefreshTokenFlowRecommendedHint").collapse("show");
+                }else {
+                   $("#allowRefreshTokenFlowRecommendedHint").collapse("hide");
+                }
+            });
     
+      allowLogoutEndpoint.change(function (){
+           if(allowLogoutEndpoint.prop('checked')){
+             $("#postLogoutRedirectUrisFieldSet").collapse("show");
+          }else {
+             $("#postLogoutRedirectUrisFieldSet").collapse("hide");
+          }
+      })
+        
+     // 刷新流程
     function refreshFlows() {
         // refreshRoleGroup();
         refreshAllowRefreshTokenFlowVisibility();
         refreshRedirectSettings();
     }
-            
+    
+    // 刷新 允许刷新令牌流可见性
     function refreshAllowRefreshTokenFlowVisibility() {
-        let allowRefreshTokenFlow = $("#allowRefreshTokenFlow");
-
-        if ($("#AllowPasswordFlow").prop('checked') ||
-            $("#allowAuthorizationCodeFlow").prop('checked') ||
-            $("#AllowHybridFlow").prop('checked')) {
+        if (allowAuthorizationCodeFlow.prop('checked') ||
+            allowPasswordFlow.prop('checked') ||
+            allowHybridFlow.prop('checked')) {
             allowRefreshTokenFlow.removeAttr("disabled");
         }
         else {
@@ -233,28 +357,31 @@ $(function (){
             // refreshOfflineAccessTip();
         }
     }
+    
+    // 刷新重定向设置
     function refreshRedirectSettings() {
                 let redirectContainer = $("#redirectContainer");
                 
                 // var skipConsent = $("#SkipConsent");
-                // var postLogoutRedirecUris = $("#postLogoutRedirectUris")
+                 let postLogoutRedirecUris = $("#postLogoutRedirectUrisFieldSet")
     
-                if ($("#AllowImplicitFlow").prop('checked') ||
-                    $("#allowAuthorizationCodeFlow").prop('checked') ||
-                    $("#AllowHybridFlow").prop('checked')) {
+                if (allowImplicitFlow.prop('checked') ||
+                    allowAuthorizationCodeFlow.prop('checked') ||
+                    allowHybridFlow.prop('checked')) {
                     redirectContainer.collapse("show");
-                    if ($("#AllowLogoutEndpoint").prop('checked')) {
-                        // postLogoutRedirecUris.collapse("show");
+                    console.log(allowLogoutEndpoint.prop('checked'))
+                    if (allowLogoutEndpoint.prop('checked')) {
+                         postLogoutRedirecUris.collapse("show");
                     }
                     else {
-                        // postLogoutRedirecUris.collapse("hide");
+                         postLogoutRedirecUris.collapse("hide");
                     }
                 }
                 else {
                     // skipConsent.prop("checked", false);
                     redirectContainer.collapse("hide");
-                    $("#AllowLogoutEndpoint").prop('checked', false);
-                    // postLogoutRedirecUris.collapse("hide");
+                    allowLogoutEndpoint.prop('checked', false);
+                    postLogoutRedirecUris.collapse("hide");
                 }
             }
 })

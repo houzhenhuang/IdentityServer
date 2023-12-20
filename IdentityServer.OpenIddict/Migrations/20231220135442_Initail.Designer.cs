@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer.OpenIddict.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231125051745_Initial")]
-    partial class Initial
+    [Migration("20231220135442_Initail")]
+    partial class Initail
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

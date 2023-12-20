@@ -21,6 +21,12 @@ public class CreateViewModel
     /// </summary>
     [Url(ErrorMessage = "{0} 格式不正确")]
     public string? RedirectUris { get; set; }
+    
+    /// <summary>
+    /// 注销重定向url
+    /// </summary>
+    [Url(ErrorMessage = "{0} 格式不正确")]
+    public string PostLogoutRedirectUris { get; set; }
 
     /// <summary>
     /// 应用程序(客户端)类型
