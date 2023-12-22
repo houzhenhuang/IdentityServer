@@ -1,4 +1,4 @@
-namespace IdentityServer.OpenIddict.Models;
+namespace IdentityServer.OpenIddict.ViewModels;
 
 public class ErrorViewModel
 {

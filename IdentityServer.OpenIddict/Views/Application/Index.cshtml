@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using X.PagedList.Mvc.Core
 @using X.PagedList.Web.Common
+@using IdentityServer.OpenIddict.Models.Paged
 @model IndexViewModel;
 @{
 }
@@ -63,6 +64,12 @@
     }
 
     <div class="text-center">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { pageIndex = page, sortOrder = ViewData["CurrentSort"], searchString = ViewData["SearchString"], pageSize = Model.PageSize }), new PagedListRenderOptions { LinkToFirstPageFormat = "首页", LinkToNextPageFormat = "下一页", LinkToPreviousPageFormat = "上一页", LinkToLastPageFormat = "末页", MaximumPageNumbersToDisplay = 5, DisplayItemSliceAndTotal = false })
+        @Html.PagedListPager(Model, page => Url.Action("Index", new
+        {
+            pageIndex = page,
+            sortOrder = ViewData["CurrentSort"],
+            searchString = ViewData["SearchString"],
+            pageSize = Model.PageSize
+        }), PagedListRenderOptionsConfigure.Default)
     </div>
 </div>
