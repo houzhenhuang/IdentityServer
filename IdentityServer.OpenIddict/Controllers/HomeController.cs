@@ -9,7 +9,6 @@ namespace IdentityServer.OpenIddict.Controllers;
 [Authorize(AuthenticationSchemes = "Identity.Application")]
 public class HomeController : Controller
 {
-    private const string HomeDirectory = "~/Views/Home";
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -19,7 +18,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View("_ContentLayout", new ContentLayoutViewModel { HeaderView = $"{HomeDirectory}/Index/Header.cshtml", ContentView = $"{HomeDirectory}/Index/Content.cshtml" });
+        return View();
     }
 
     public IActionResult Privacy()
