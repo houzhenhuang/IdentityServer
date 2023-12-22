@@ -1,0 +1,33 @@
+﻿@using IdentityServer.OpenIddict.Views.Shared.Components.Header
+@using IdentityServer.OpenIddict.Views.Shared.Components.Sidebar
+@using IdentityServer.OpenIddict.Views.Shared.Components.ControlSidebar
+@using IdentityServer.OpenIddict.Views.Shared.Components.Footer
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>身份认证中心 | @ViewData["Title"]</title>
+
+    <link rel="icon" type="image/png" href="~/lib/admin-lte/dist/img/AdminLTELogo.png" />
+
+    @await Html.PartialAsync("_Styles.cshtml")
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
+        @(await Component.InvokeAsync<HeaderViewComponent>())
+        @(await Component.InvokeAsync<SidebarViewComponent>())
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        @(await Component.InvokeAsync<ControlSidebarViewComponent>())
+        @(await Component.InvokeAsync<FooterViewComponent>())
+    </div>
+    @await Html.PartialAsync("_Scripts.cshtml")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,11 @@
+﻿@using IdentityServer.OpenIddict.Views.Shared.Components.SidebarBrand
+@using IdentityServer.OpenIddict.Views.Shared.Components.SidebarMenu
+@using IdentityServer.OpenIddict.Views.Shared.Components.SidebarUserPanel
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    @(await Component.InvokeAsync<SidebarBrandViewComponent>())
+    <div class="sidebar">
+        @* @(await Component.InvokeAsync<SidebarUserPanelViewComponent>()) *@
+        @(await Component.InvokeAsync<SidebarMenuViewComponent>())
+    </div>
+</aside>

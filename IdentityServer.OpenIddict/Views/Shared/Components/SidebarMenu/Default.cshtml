@@ -1,0 +1,110 @@
+﻿@{
+    var currentRoute = $"{ViewContext.RouteData.Values["Controller"]}/{ViewContext.RouteData.Values["Action"]}";
+}
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- 使用字体很棒的.nav图标类或任何其他图标字体库将图标添加到链接中 -->
+        <li class="nav-item">
+            <a class="nav-link @(currentRoute.IndexOf("Home/", StringComparison.Ordinal) == 0 || currentRoute.IndexOf("/", StringComparison.Ordinal) == 0 ? "active" : string.Empty)" asp-controller="Home" asp-action="Index">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Home
+                </p>
+            </a>
+        </li>
+
+        @{
+            var isActiveOpenIdConnectMenu = currentRoute.IndexOf("Application/", StringComparison.Ordinal) == 0 || currentRoute.IndexOf("Scope/", StringComparison.Ordinal) == 0;
+        }
+        <li class="nav-item has-treeview @(isActiveOpenIdConnectMenu ? "menu-open" : string.Empty)">
+            <a href="#" class="nav-link @(isActiveOpenIdConnectMenu ? "active" : string.Empty)">
+                <i class="nav-icon fas ">
+                    <svg class="svg-inline--fa fa-openid" aria-hidden="true" width="100%" height="17" focusable="false" data-prefix="fab" data-icon="openid" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                        <path fill="currentColor" d="M271.5 432l-68 32C88.5 453.7 0 392.5 0 318.2c0-71.5 82.5-131 191.7-144.3v43c-71.5 12.5-124 53-124 101.3 0 51 58.5 93.3 135.7 103v-340l68-33.2v384zM448 291l-131.3-28.5 36.8-20.7c-19.5-11.5-43.5-20-70-24.8v-43c46.2 5.5 87.7 19.5 120.3 39.3l35-19.8L448 291z"></path>
+                    </svg>
+                </i>
+                <p>
+                    OpenID Connect
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a class="nav-link @(currentRoute.IndexOf("Application/", StringComparison.Ordinal) == 0 ? "active" : string.Empty)" asp-controller="Application" asp-action="Index">
+                        <i class="far  nav-icon"></i>
+                        <p>应用程序</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(currentRoute.IndexOf("Scope/", StringComparison.Ordinal) == 0 ? "active" : string.Empty)" asp-controller="Scope" asp-action="Index">
+                        <i class="far  nav-icon"></i>
+                        <p>范围</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-circle"></i>
+                <p>
+                    Level 1
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Level 2</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>
+                            Level 2
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Level 2</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Simple Link
+                    <span class="right badge badge-danger">New</span>
+                </p>
+            </a>
+        </li>
+    </ul>
+</nav>

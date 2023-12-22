@@ -19,19 +19,20 @@ public class ApplicationController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 1)
     {
-        var vm = new IndexViewModel();
-
-        await foreach (var application in _applicationManager.ListAsync(20, 0))
+        var applications = new List<OpenIdApplicationEntry>();
+        await foreach (var application in _applicationManager.ListAsync(pageSize, (pageIndex - 1) * pageSize))
         {
-            vm.Applications.Add(new OpenIdApplicationEntry
+            applications.Add(new OpenIdApplicationEntry
             {
                 Id = (await _applicationManager.GetIdAsync(application))!,
                 DisplayName = (await _applicationManager.GetDisplayNameAsync(application))!
             });
         }
 
+        var totalCount = await _applicationManager.CountAsync();
+        var vm = new IndexViewModel(applications, pageIndex, pageSize, (int)totalCount);
         return View("Index", vm);
     }
 
@@ -241,7 +242,7 @@ public class ApplicationController : Controller
 
         return this.LocalRedirect(returnUrl, true);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
@@ -255,5 +256,4 @@ public class ApplicationController : Controller
 
         return RedirectToAction(nameof(Index));
     }
-
 }

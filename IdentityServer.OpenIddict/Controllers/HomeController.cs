@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using IdentityServer.OpenIddict.Models;
+using IdentityServer.OpenIddict.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IdentityServer.OpenIddict.Controllers;
@@ -8,6 +9,7 @@ namespace IdentityServer.OpenIddict.Controllers;
 [Authorize(AuthenticationSchemes = "Identity.Application")]
 public class HomeController : Controller
 {
+    private const string HomeDirectory = "~/Views/Home";
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -17,7 +19,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        return View("_ContentLayout", new ContentLayoutViewModel { HeaderView = $"{HomeDirectory}/Index/Header.cshtml", ContentView = $"{HomeDirectory}/Index/Content.cshtml" });
     }
 
     public IActionResult Privacy()

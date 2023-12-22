@@ -1,35 +1,52 @@
 ﻿@model IdentityServer.OpenIddict.ViewModels.Scope.CreateViewModel;
 @{
-    Layout = "_Layout";
 }
 
-<h1>创建新的范围</h1>
-<div asp-validation-summary="ModelOnly"></div>
-<form id="create-scope-form" asp-action="Create" method="post">
-    <div class="mb-3" asp-validation-class-for="Name">
-        <label for="name" class="form-label">名称</label>
-        <input type="text" class="form-control" id="name" placeholder="请输入名称" asp-for="Name" value="@Model.Name">
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">创建范围</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">创建范围</li>
+                </ol>
+            </div>
+        </div>
     </div>
+</div>
+<div class="content">
+    <div asp-validation-summary="ModelOnly"></div>
+    <form id="create-scope-form" asp-action="Create" method="post">
+        <div class="mb-3" asp-validation-class-for="Name">
+            <label for="name" class="form-label">名称</label>
+            <input type="text" class="form-control" id="name" placeholder="请输入名称" asp-for="Name" value="@Model.Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-    <div class="mb-3" asp-validation-class-for="DisplayName">
-        <label for="displayName" class="form-label">显示名称</label>
-        <input type="text" class="form-control" id="displayName" placeholder="请输入显示名称" asp-for="DisplayName" value="@Model.DisplayName">
-        <span asp-validation-for="DisplayName" class="text-danger"></span>
-    </div>
+        <div class="mb-3" asp-validation-class-for="DisplayName">
+            <label for="displayName" class="form-label">显示名称</label>
+            <input type="text" class="form-control" id="displayName" placeholder="请输入显示名称" asp-for="DisplayName" value="@Model.DisplayName">
+            <span asp-validation-for="DisplayName" class="text-danger"></span>
+        </div>
 
-    <div class="mb-3">
-        <label for="description" class="form-label">描述</label>
-        <textarea class="form-control" id="description" rows="3" placeholder="请输入描述" asp-for="Description" value="@Model.Description"></textarea>
-    </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">描述</label>
+            <textarea class="form-control" id="description" rows="3" placeholder="请输入描述" asp-for="Description" value="@Model.Description"></textarea>
+        </div>
 
-    <div class="mb-3">
-        <label for="resources" class="form-label">其他资源 (API audiences)</label>
-        <input type="text" class="form-control" id="resources" placeholder="请输入其它资源" asp-for="Resources" value="@Model.Resources" />
-    </div>
+        <div class="mb-3">
+            <label for="resources" class="form-label">其他资源 (API audiences)</label>
+            <input type="text" class="form-control" id="resources" placeholder="请输入其它资源" asp-for="Resources" value="@Model.Resources"/>
+        </div>
 
-    <div class="mb-3">
-        <button class="btn btn-primary save" type="submit">保存</button>
-        <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">取消</a>
-    </div>
-</form>
+        <div class="mb-3">
+            <button class="btn btn-primary save" type="submit">保存</button>
+            <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">取消</a>
+        </div>
+    </form>
+</div>

@@ -1,31 +1,68 @@
 ﻿@using IdentityServer.OpenIddict.ViewModels.Application;
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
 @model IndexViewModel;
 @{
 }
-<h1>应用程序</h1>
 
-<div class="card mb-3">
-    <div class="card-body">
-        <a class="btn btn-primary" asp-controller="Application" asp-action="Create">添加应用</a>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">应用程序</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">应用程序</li>
+                </ol>
+            </div>
+        </div>
     </div>
 </div>
+<div class="content">
+    <div class="card mb-3">
+        <div class="card-body">
+            <a class="btn btn-primary" asp-controller="Application" asp-action="Create">添加应用</a>
+        </div>
+    </div>
 
-@using (Html.BeginForm())
-{
-    <ul class="list-group">
-        @foreach (var application in Model.Applications)
-        {
-            <li class="list-group-item ">
-                <div class="w-100">
-                    <span>
-                        @application.DisplayName
-                    </span>
-                    <div class="float-end">
+    @using (Html.BeginForm())
+    {
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>显示名称</th>
+                <th>Browser</th>
+                <th>Platform(s)</th>
+                <th>Engine version</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var application in Model.Applications)
+            {
+                <tr>
+                    <td>@application.DisplayName</td>
+                    <td>
+                        Internet
+                        Explorer 4.0
+                    </td>
+                    <td>Win 95+</td>
+                    <td> 4</td>
+                    <td>
                         <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@application.Id">编辑</a>
                         <button type="submit" class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@application.Id">删除</button>
-                    </div>
-                </div>
-            </li>
-        }
-    </ul>
-}
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+
+    <div class="text-center">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { pageIndex = page, sortOrder = ViewData["CurrentSort"], searchString = ViewData["SearchString"], pageSize = Model.PageSize }), new PagedListRenderOptions { LinkToFirstPageFormat = "首页", LinkToNextPageFormat = "下一页", LinkToPreviousPageFormat = "上一页", LinkToLastPageFormat = "末页", MaximumPageNumbersToDisplay = 5, DisplayItemSliceAndTotal = false })
+    </div>
+</div>

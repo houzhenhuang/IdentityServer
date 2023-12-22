@@ -22,13 +22,19 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.14" />
       <PackageReference Include="OpenIddict.AspNetCore" Version="4.10.0" />
       <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="4.10.0" />
+      <PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.7" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Claims\" />
       <Folder Include="Migrations\" />
-      <Folder Include="Views\Shared\Components\" />
-      <Folder Include="Views\Shared\Layout\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\HeaderLeft\Default.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\HeaderRight\Default.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\Header\HeaderLeft\Default.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Components\Header\HeaderRight\Default.cshtml" />
     </ItemGroup>
 
 </Project>
