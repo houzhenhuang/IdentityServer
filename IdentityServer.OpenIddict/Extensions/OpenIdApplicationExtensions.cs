@@ -5,7 +5,7 @@ namespace IdentityServer.OpenIddict.Extensions;
 
 internal static class OpenIdApplicationExtensions
 {
-    public static async Task UpdateDescriptorFromSettings(this IOpenIddictApplicationManager applicationManager, OpenIdApplicationSettings model, object application = null)
+    public static async Task UpdateDescriptorFromSettings(this IOpenIddictApplicationManager applicationManager, OpenIdApplicationSettings model, object? application = null)
     {
         var descriptor = new OpenIdApplicationDescriptor();
 
@@ -224,13 +224,13 @@ internal static class OpenIdApplicationExtensions
 
 public class OpenIdApplicationSettings
 {
-    public string ClientId { get; set; }
-    public string DisplayName { get; set; }
-    public string RedirectUris { get; set; }
-    public string PostLogoutRedirectUris { get; set; }
-    public string Type { get; set; }
-    public string ConsentType { get; set; }
-    public string ClientSecret { get; set; }
+    public string ClientId { get; set; } = string.Empty;
+    public string DisplayName { get; set; } = string.Empty;
+    public string? RedirectUris { get; set; }
+    public string? PostLogoutRedirectUris { get; set; }
+    public string Type { get; set; } = string.Empty;
+    public string? ConsentType { get; set; }
+    public string? ClientSecret { get; set; }
     public string[] Roles { get; set; }
     public string[] Scopes { get; set; }
     public bool AllowPasswordFlow { get; set; }

@@ -21,17 +21,17 @@ public class CreateViewModel
     /// </summary>
     [Url(ErrorMessage = "{0} 格式不正确")]
     public string? RedirectUris { get; set; }
-    
+
     /// <summary>
     /// 注销重定向url
     /// </summary>
     [Url(ErrorMessage = "{0} 格式不正确")]
-    public string PostLogoutRedirectUris { get; set; }
+    public string? PostLogoutRedirectUris { get; set; }
 
     /// <summary>
     /// 应用程序(客户端)类型
     /// </summary>
-    public string? Type { get; set; }
+    public string Type { get; set; } = string.Empty;
 
     /// <summary>
     /// 同意类型
@@ -108,7 +108,7 @@ public class CreateViewModel
     /// </summary>
     public class ScopeEntry
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public bool Selected { get; set; }
     }
 
@@ -117,7 +117,7 @@ public class CreateViewModel
     /// </summary>
     public class RoleEntry
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public bool Selected { get; set; }
     }
 }

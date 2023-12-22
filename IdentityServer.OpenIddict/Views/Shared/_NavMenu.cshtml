@@ -17,8 +17,13 @@
             </a>
         </div>
         <div class="nav-item">
-            <a class="nav-link @(currentRoute.IndexOf("Applications/", StringComparison.Ordinal) == 0 ? "active" : string.Empty)" asp-area="" asp-controller="Application" asp-action="Index">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> 应用程序
+            <a class="nav-link @(currentRoute.IndexOf("Application/", StringComparison.Ordinal) == 0 ? "active" : string.Empty)" asp-area="" asp-controller="Application" asp-action="Index">
+                <span class="bi bi-application-fill-nav-menu" aria-hidden="true"></span> 应用程序
+            </a>
+        </div>
+        <div class="nav-item">
+            <a class="nav-link @(currentRoute.IndexOf("Scope/", StringComparison.Ordinal) == 0 ? "active" : string.Empty)" asp-area="" asp-controller="Scope" asp-action="Index">
+                <span class="bi bi-apple" aria-hidden="true"></span> 范围
             </a>
         </div>
     </nav>

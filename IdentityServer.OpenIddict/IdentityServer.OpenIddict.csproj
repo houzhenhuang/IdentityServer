@@ -27,6 +27,8 @@
     <ItemGroup>
       <Folder Include="Claims\" />
       <Folder Include="Migrations\" />
+      <Folder Include="Views\Shared\Components\" />
+      <Folder Include="Views\Shared\Layout\" />
     </ItemGroup>
 
 </Project>

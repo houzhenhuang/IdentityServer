@@ -1,0 +1,31 @@
+﻿@using IdentityServer.OpenIddict.ViewModels.Scope;
+@model IndexViewModel;
+@{
+}
+<h1>范围</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <a class="btn btn-primary" asp-controller="Scope" asp-action="Create">添加范围</a>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    <ul class="list-group">
+        @foreach (var entry in Model.Scopes)
+        {
+            <li class="list-group-item ">
+                <div class="w-100">
+                    <span>
+                        @entry.DisplayName (@entry.Name)
+                    </span>
+                    <div class="float-end">
+                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@entry.Id">编辑</a>
+                        <button type="submit" class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@entry.Id">删除</button>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}
